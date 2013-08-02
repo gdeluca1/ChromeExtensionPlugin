@@ -245,7 +245,11 @@ public class ChromeExtensionProject implements Project {
         }
         @Override
         public List<FileObject> getDataFiles() {
-            return new ArrayList<FileObject>();
+            ArrayList<FileObject> toReturn = new ArrayList<FileObject>();
+            for(FileObject o : projectDir.getChildren()) {
+                toReturn.add(o);
+            }
+            return toReturn;
         }
         @Override
         public void notifyRenaming() throws IOException {
@@ -285,7 +289,11 @@ public class ChromeExtensionProject implements Project {
         }
         @Override
         public List<FileObject> getDataFiles() {
-            return new ArrayList<FileObject>();
+            ArrayList<FileObject> toReturn = new ArrayList<FileObject>();
+            for(FileObject o : projectDir.getChildren()) {
+                toReturn.add(o);
+            }
+            return toReturn;
         }
         @Override
         public void notifyDeleting() throws IOException {

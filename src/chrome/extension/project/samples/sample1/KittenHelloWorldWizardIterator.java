@@ -37,8 +37,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 // TODO define position attribute
-@TemplateRegistration(folder = "Project/Samples", displayName = "#KittenHelloWorld_displayName", description = "KittenHelloWorldDescription.html", iconBase = "chrome/extension/project/samples/sample1/KittenHelloWorld.png", content = "KittenHelloWorldProject.zip")
-@Messages("KittenHelloWorld_displayName=Chrome Extension Sample")
+@TemplateRegistration(folder = "Project/APISupport", displayName = "#KittenHelloWorld_displayName", description = "KittenHelloWorldDescription.html", iconBase = "chrome/extension/project/samples/sample1/KittenHelloWorld.png", content = "KittenHelloWorldProject.zip")
+@Messages("KittenHelloWorld_displayName=Chrome Extension Sample 1")
 public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progress*/InstantiatingIterator {
 
     private int index;
