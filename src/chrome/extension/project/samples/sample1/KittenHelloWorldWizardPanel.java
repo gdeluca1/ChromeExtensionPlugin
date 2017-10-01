@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project.samples.sample1;
 
 import java.awt.Component;

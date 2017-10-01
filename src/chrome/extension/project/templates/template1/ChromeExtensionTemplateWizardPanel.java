@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project.templates.template1;
 
 import java.awt.Component;
@@ -26,6 +22,7 @@ public class ChromeExtensionTemplateWizardPanel implements WizardDescriptor.Pane
     public ChromeExtensionTemplateWizardPanel() {
     }
 
+    @Override
     public Component getComponent() {
         if (component == null) {
             component = new ChromeExtensionTemplatePanelVisual(this);
@@ -34,22 +31,26 @@ public class ChromeExtensionTemplateWizardPanel implements WizardDescriptor.Pane
         return component;
     }
 
+    @Override
     public HelpCtx getHelp() {
-        return new HelpCtx(ChromeExtensionTemplateWizardPanel.class);
+        return new HelpCtx("chrome.extension.project.templates.template1.ChromeExtensionTemplateWizardPanel");
     }
 
+    @Override
     public boolean isValid() {
         getComponent();
         return component.valid(wizardDescriptor);
     }
     private final Set<ChangeListener> listeners = new HashSet<ChangeListener>(1); // or can use ChangeSupport in NB 6.0
 
+    @Override
     public final void addChangeListener(ChangeListener l) {
         synchronized (listeners) {
             listeners.add(l);
         }
     }
 
+    @Override
     public final void removeChangeListener(ChangeListener l) {
         synchronized (listeners) {
             listeners.remove(l);
@@ -67,20 +68,24 @@ public class ChromeExtensionTemplateWizardPanel implements WizardDescriptor.Pane
         }
     }
 
+    @Override
     public void readSettings(Object settings) {
         wizardDescriptor = (WizardDescriptor) settings;
         component.read(wizardDescriptor);
     }
 
+    @Override
     public void storeSettings(Object settings) {
         WizardDescriptor d = (WizardDescriptor) settings;
         component.store(d);
     }
 
+    @Override
     public boolean isFinishPanel() {
         return true;
     }
 
+    @Override
     public void validate() throws WizardValidationException {
         getComponent();
         component.validate(wizardDescriptor);
