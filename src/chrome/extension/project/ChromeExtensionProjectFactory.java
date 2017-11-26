@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project;
 
 import java.io.IOException;
@@ -15,16 +11,15 @@ import org.openide.util.lookup.ServiceProvider;
  *
  * @author Gennaro
  */
-@ServiceProvider(service=ProjectFactory.class)
+@ServiceProvider(service = ProjectFactory.class)
 public class ChromeExtensionProjectFactory implements ProjectFactory {
-
     public static final String PROJECT_FILE = "manifest.json";
 
     /**
-     * Tests to see if the specified directory is a Chrome Extension
-     * project.
+     * Tests to see if the specified directory is a Chrome Extension project.
+     *
      * @param projectDirectory
-     * @return 
+     * @return
      */
     @Override
     public boolean isProject(FileObject projectDirectory) {
@@ -33,11 +28,10 @@ public class ChromeExtensionProjectFactory implements ProjectFactory {
 
     @Override
     public Project loadProject(FileObject dir, ProjectState state) throws IOException {
-        return isProject(dir) ? new ChromeExtensionProject(dir, state) : null;
+        return isProject(dir) ? new ChromeExtensionProject(dir) : null;
     }
 
     @Override
     public void saveProject(Project prjct) throws IOException, ClassCastException {
     }
-    
 }

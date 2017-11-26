@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project;
 
 import java.awt.Image;
@@ -9,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -42,14 +39,11 @@ import org.openide.util.lookup.ProxyLookup;
  * @author Gennaro
  */
 public class ChromeExtensionProject implements Project {
-    
     private final FileObject projectDir;
-    private final ProjectState state;
     private Lookup lkp;
 
-    public ChromeExtensionProject(FileObject projectDir, ProjectState state) {
+    public ChromeExtensionProject(FileObject projectDir) {
         this.projectDir = projectDir;
-        this.state = state;
     }
 
     @Override
@@ -72,9 +66,9 @@ public class ChromeExtensionProject implements Project {
         }
         return lkp;
     }
-    
+
     private final class Info implements ProjectInformation {
-        
+
         @StaticResource()
         public static final String CUSTOMER_ICON = "chrome/extension/project/icon.png";
 
@@ -91,7 +85,7 @@ public class ChromeExtensionProject implements Project {
         @Override
         public Icon getIcon() {
             return new ImageIcon(ChromeExtensionProject.class.getResource("icon.png"));
-            
+
             // new ImageIcon(CUSTOMER_ICON) does not display the image when selecting files.
 //            return new ImageIcon(CUSTOMER_ICON);
         }
@@ -111,18 +105,18 @@ public class ChromeExtensionProject implements Project {
             // Do nothing, won't change.
         }
     }
-    
+
     class ChromeExtensionProjectLogicalView implements LogicalViewProvider {
 
         @StaticResource()
         public static final String CUSTOMER_ICON = "chrome/extension/project/icon.png";
-        
+
         private final ChromeExtensionProject project;
 
         public ChromeExtensionProjectLogicalView(ChromeExtensionProject project) {
             this.project = project;
         }
-        
+
         @Override
         public Node createLogicalView() {
             try {
@@ -132,7 +126,7 @@ public class ChromeExtensionProject implements Project {
                 Node nodeOfProjectFolder = projectFolder.getNodeDelegate();
                 //Decorate the project directory's node:
                 return new ProjectNode(nodeOfProjectFolder, project);
-            } 
+            }
             catch (DataObjectNotFoundException donfe) {
                 Exceptions.printStackTrace(donfe);
                 //Fallback-the directory couldn't be created -
@@ -140,9 +134,9 @@ public class ChromeExtensionProject implements Project {
                 return new AbstractNode(Children.LEAF);
             }
         }
-        
+
         private final class ProjectNode extends FilterNode {
-            
+
             final ChromeExtensionProject project;
 
             public ProjectNode(Node node, ChromeExtensionProject project) throws DataObjectNotFoundException {
@@ -190,9 +184,9 @@ public class ChromeExtensionProject implements Project {
             return null;
         }
     }
-    
+
     class ChromeExtensionActionProvider implements ActionProvider {
-        
+
         @Override
         public String[] getSupportedActions() {
             return new String[]{
@@ -224,7 +218,7 @@ public class ChromeExtensionProject implements Project {
         }
         @Override
         public boolean isActionEnabled(String command, Lookup lookup) throws IllegalArgumentException {
-            
+
             if ((command.equals(ActionProvider.COMMAND_RENAME))) {
                 return true;
             } else if ((command.equals(ActionProvider.COMMAND_MOVE))) {
@@ -237,7 +231,7 @@ public class ChromeExtensionProject implements Project {
             return false;
         }
     }
-    
+
     private final class ChromeExtensionProjectMoveOrRenameOperation implements MoveOrRenameOperationImplementation {
         @Override
         public List<FileObject> getMetadataFiles() {
@@ -290,9 +284,7 @@ public class ChromeExtensionProject implements Project {
         @Override
         public List<FileObject> getDataFiles() {
             ArrayList<FileObject> toReturn = new ArrayList<FileObject>();
-            for(FileObject o : projectDir.getChildren()) {
-                toReturn.add(o);
-            }
+            toReturn.addAll(Arrays.asList(projectDir.getChildren()));
             return toReturn;
         }
         @Override

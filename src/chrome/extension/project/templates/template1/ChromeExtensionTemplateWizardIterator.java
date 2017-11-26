@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project.templates.template1;
 
 import java.awt.Component;
@@ -37,7 +33,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 // TODO define position attribute
-@TemplateRegistration(folder = "Project/ChromeExtension", displayName = "#ChromeExtensionTemplate_displayName", description = "ChromeExtensionTemplateDescription.html", iconBase = "chrome/extension/project/templates/template1/ChromeExtensionTemplate.png", content = "ChromeExtensionTemplateProject.zip")
+@TemplateRegistration(folder = "Project/ChromeExtension", displayName = "#ChromeExtensionTemplate_displayName", description = "ChromeExtensionTemplateDescription.html", iconBase = "chrome/extension/project/icon.png", content = "ChromeExtensionTemplateProject.zip")
 @Messages("ChromeExtensionTemplate_displayName=Chrome Extension Template")
 public class ChromeExtensionTemplateWizardIterator implements WizardDescriptor./*Progress*/InstantiatingIterator {
 

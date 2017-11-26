@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package chrome.extension.project.samples.sample1;
 
 import java.awt.Component;
@@ -31,13 +27,15 @@ import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.util.NbBundle.Messages;
 import org.openide.xml.XMLUtil;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 // TODO define position attribute
-@TemplateRegistration(folder = "Project/APISupport", displayName = "#KittenHelloWorld_displayName", description = "KittenHelloWorldDescription.html", iconBase = "chrome/extension/project/samples/sample1/KittenHelloWorld.png", content = "KittenHelloWorldProject.zip")
+@TemplateRegistration(folder = "Project/Samples/ChromeExtension", displayName = "#KittenHelloWorld_displayName", description = "KittenHelloWorldDescription.html", iconBase = "chrome/extension/project/icon.png", content = "KittenHelloWorldProject.zip")
 @Messages("KittenHelloWorld_displayName=Chrome Extension Sample 1")
 public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progress*/InstantiatingIterator {
 
@@ -63,6 +61,7 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
         };
     }
 
+    @Override
     public Set/*<FileObject>*/ instantiate(/*ProgressHandle handle*/) throws IOException {
         Set<FileObject> resultSet = new LinkedHashSet<FileObject>();
         File dirF = FileUtil.normalizeFile((File) wiz.getProperty("projdir"));
@@ -91,6 +90,7 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
         return resultSet;
     }
 
+    @Override
     public void initialize(WizardDescriptor wiz) {
         this.wiz = wiz;
         index = 0;
@@ -109,13 +109,14 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
                 JComponent jc = (JComponent) c;
                 // Step #.
                 // TODO if using org.openide.dialogs >= 7.8, can use WizardDescriptor.PROP_*:
-                jc.putClientProperty("WizardPanel_contentSelectedIndex", new Integer(i));
+                jc.putClientProperty("WizardPanel_contentSelectedIndex", i);
                 // Step name (actually the whole list for reference).
                 jc.putClientProperty("WizardPanel_contentData", steps);
             }
         }
     }
 
+    @Override
     public void uninitialize(WizardDescriptor wiz) {
         this.wiz.putProperty("projdir", null);
         this.wiz.putProperty("name", null);
@@ -123,19 +124,23 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
         panels = null;
     }
 
+    @Override
     public String name() {
         return MessageFormat.format("{0} of {1}",
-                new Object[]{new Integer(index + 1), new Integer(panels.length)});
+                new Object[]{index + 1, panels.length});
     }
 
+    @Override
     public boolean hasNext() {
         return index < panels.length - 1;
     }
 
+    @Override
     public boolean hasPrevious() {
         return index > 0;
     }
 
+    @Override
     public void nextPanel() {
         if (!hasNext()) {
             throw new NoSuchElementException();
@@ -143,6 +148,7 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
         index++;
     }
 
+    @Override
     public void previousPanel() {
         if (!hasPrevious()) {
             throw new NoSuchElementException();
@@ -150,14 +156,17 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
         index--;
     }
 
+    @Override
     public WizardDescriptor.Panel current() {
         return panels[index];
     }
 
     // If nothing unusual changes in the middle of the wizard, simply:
+    @Override
     public final void addChangeListener(ChangeListener l) {
     }
 
+    @Override
     public final void removeChangeListener(ChangeListener l) {
     }
 
@@ -216,7 +225,13 @@ public class KittenHelloWorldWizardIterator implements WizardDescriptor./*Progre
             } finally {
                 out.close();
             }
-        } catch (Exception ex) {
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+            writeFile(str, fo);
+        } catch (DOMException ex) {
+            Exceptions.printStackTrace(ex);
+            writeFile(str, fo);
+        } catch (SAXException ex) {
             Exceptions.printStackTrace(ex);
             writeFile(str, fo);
         }
